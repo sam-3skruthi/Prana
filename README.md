@@ -80,5 +80,4 @@ The detection logic is based on a Random Forest model with the following metrics
 ## 🤝 Contributing
 Contributions are welcome! Please open an issue or submit a pull request for any improvements.
 
-## 📄 License
-This project is licensed under the MIT License.
+
