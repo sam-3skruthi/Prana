@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;family=Inter:wght@400;500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-container": "#ffe5db",
+                    "primary": "#005c55",
+                    "on-error-container": "#93000a",
+                    "surface-container": "#eceef0",
+                    "secondary-container": "#62fae3",
+                    "on-primary-fixed": "#00201d",
+                    "tertiary": "#7f4025",
+                    "outline": "#6e7977",
+                    "on-secondary-fixed": "#00201c",
+                    "on-primary-container": "#a3faef",
+                    "surface-dim": "#d8dadc",
+                    "secondary-fixed": "#62fae3",
+                    "on-error": "#ffffff",
+                    "surface-container-high": "#e6e8ea",
+                    "on-primary-fixed-variant": "#00504a",
+                    "primary-fixed": "#9cf2e8",
+                    "inverse-on-surface": "#eff1f3",
+                    "tertiary-fixed-dim": "#ffb598",
+                    "tertiary-container": "#9c573a",
+                    "surface-tint": "#006a63",
+                    "surface-bright": "#f7f9fb",
+                    "outline-variant": "#bdc9c6",
+                    "on-surface-variant": "#3e4947",
+                    "on-surface": "#191c1e",
+                    "on-primary": "#ffffff",
+                    "on-tertiary-fixed": "#370e00",
+                    "on-background": "#191c1e",
+                    "error-container": "#ffdad6",
+                    "background": "#f7f9fb",
+                    "on-tertiary": "#ffffff",
+                    "error": "#ba1a1a",
+                    "primary-fixed-dim": "#80d5cb",
+                    "surface-container-low": "#f2f4f6",
+                    "secondary-fixed-dim": "#3cddc7",
+                    "inverse-surface": "#2d3133",
+                    "surface-variant": "#e0e3e5",
+                    "on-secondary-container": "#007165",
+                    "secondary": "#006b5f",
+                    "on-secondary-fixed-variant": "#005047",
+                    "inverse-primary": "#80d5cb",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "surface-container-highest": "#e0e3e5",
+                    "tertiary-fixed": "#ffdbce",
+                    "primary-container": "#0f766e",
+                    "on-tertiary-fixed-variant": "#72361b",
+                    "surface": "#f7f9fb"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .organic-gradient {
+            background: radial-gradient(circle at 70% 30%, rgba(45, 212, 191, 0.08) 0%, rgba(247, 249, 251, 0) 60%),
+                        radial-gradient(circle at 20% 80%, rgba(15, 118, 110, 0.05) 0%, rgba(247, 249, 251, 0) 50%);
+        }
+        .logo-glow {
+            filter: drop-shadow(0 0 20px rgba(45, 212, 191, 0.2));
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </style>
+</head>
+<body class="bg-surface-dim font-body text-on-background min-h-screen flex items-center justify-center sm:p-8 overflow-hidden">
+
+  <!-- Mobile Device Frame -->
+  <div class="relative w-full h-[100dvh] sm:w-[393px] sm:h-[852px] bg-background sm:rounded-[3rem] shadow-2xl overflow-hidden ring-0 sm:ring-[12px] ring-surface-container-highest flex flex-col">
+    
+    <!-- Fake Status Bar (Mobile feel) -->
+    <div class="absolute top-0 left-0 right-0 h-12 z-50 flex items-center justify-between px-6 pointer-events-none">
+      <span class="text-[14px] font-semibold tracking-tight text-on-background">9:41</span>
+      <div class="flex items-center space-x-2 text-on-background">
+        <span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">signal_cellular_4_bar</span>
+        <span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">wifi</span>
+        <span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">battery_full</span>
+      </div>
+    </div>
+
+    <!-- Splash Screen Content -->
+    <main class="relative flex-1 w-full flex flex-col items-center justify-center organic-gradient">
+        
+        <!-- Background Imagery (Subtle context) -->
+        <div class="absolute inset-0 z-0 opacity-[0.03] pointer-events-none flex items-center justify-center">
+            <img class="w-full h-full object-cover grayscale" data-alt="Abstract cinematic wide shot of a motorcycle headlight and front wheel resting in a modern architectural space with soft morning light." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_fRIFefBf_-Wt3dIQAoWEGjndrZxeYR273YYcI4habw2y6NtdlRBjNaBTj11cZKWMcAdlyWcuNT-JFhhTp2dUBapwdhS5_-WGfT_-4qWig6erM_EcA4aYaGNg86WrFsG2hd-p2ZVlESNpLXdIewCp_dyhAPcdmnrskzIlQUwchC9fRNwlZ_D0LjNwEsK2w7Uy-N_PUpe4GFG5usfLmA9XAkWJRKzxw3u1qFDTaOdpTSiv8SXNWtEdj3K1N2pNaviG3d_hzlk3iLo"/>
+        </div>
+        
+        <!-- Branding Core -->
+        <div class="relative z-10 flex flex-col items-center text-center px-6 mt-8">
+            <!-- Logo Icon Container -->
+            <div class="mb-12 relative">
+                <!-- Outer Ring -->
+                <div class="absolute -inset-8 rounded-full bg-primary/10 blur-3xl opacity-60"></div>
+                <!-- Pulsing App Icon Ring -->
+                <div class="absolute -inset-2 rounded-2xl bg-primary/20 animate-pulse"></div>
+                
+                <div class="relative w-28 h-28 flex items-center justify-center bg-surface-container-lowest rounded-[2rem] shadow-2xl shadow-primary/20 logo-glow border border-surface-variant/50">
+                    <span class="material-symbols-outlined text-primary text-5xl" style="font-variation-settings: 'FILL' 1, 'wght' 400;">
+                        airwave
+                    </span>
+                </div>
+            </div>
+            
+            <!-- Brand Name -->
+            <div class="space-y-4">
+                <h1 class="font-headline font-extrabold text-4xl tracking-tight text-on-background">
+                    Prana <span class="bg-clip-text text-transparent bg-gradient-to-br from-primary to-secondary">One</span>
+                </h1>
+                <div class="flex items-center justify-center space-x-3">
+                    <div class="h-px w-6 bg-outline-variant/50"></div>
+                    <p class="font-label text-[10px] uppercase tracking-[0.25em] text-outline font-bold">
+                        Breathe Easy. Ride Safe.
+                    </p>
+                    <div class="h-px w-6 bg-outline-variant/50"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- System Loading State -->
+        <div class="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center w-full px-8">
+            <div class="flex space-x-2 mb-5">
+                <div class="w-1.5 h-1.5 rounded-full bg-primary animate-bounce" style="animation-delay: 0s;"></div>
+                <div class="w-1.5 h-1.5 rounded-full bg-primary animate-bounce" style="animation-delay: 0.2s;"></div>
+                <div class="w-1.5 h-1.5 rounded-full bg-primary animate-bounce" style="animation-delay: 0.4s;"></div>
+            </div>
+            <p class="font-label text-[9px] text-outline/80 uppercase tracking-[0.2em] font-semibold text-center w-full">
+                Initializing Life-Support
+            </p>
+            
+            <!-- Home Indicator (iOS Bottom Bar) -->
+            <div class="absolute -bottom-8 w-1/3 h-1 bg-on-background/20 rounded-full"></div>
+        </div>
+        
+        <!-- Decorative Asymmetry -->
+        <div class="absolute top-16 left-6">
+            <p class="font-label text-[8px] text-outline/40 vertical-rl uppercase tracking-widest transform rotate-180">
+                Ver. 2.0.4
+            </p>
+        </div>
+        
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Prana One - Adaptive Guardian Engine</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Inter:wght@400;500;600&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-container": "#ffe5db",
+                        "primary": "#005c55",
+                        "on-error-container": "#93000a",
+                        "surface-container": "#eceef0",
+                        "secondary-container": "#62fae3",
+                        "on-primary-fixed": "#00201d",
+                        "tertiary": "#7f4025",
+                        "outline": "#6e7977",
+                        "on-secondary-fixed": "#00201c",
+                        "on-primary-container": "#a3faef",
+                        "surface-dim": "#d8dadc",
+                        "secondary-fixed": "#62fae3",
+                        "on-error": "#ffffff",
+                        "surface-container-high": "#e6e8ea",
+                        "on-primary-fixed-variant": "#00504a",
+                        "primary-fixed": "#9cf2e8",
+                        "inverse-on-surface": "#eff1f3",
+                        "tertiary-fixed-dim": "#ffb598",
+                        "tertiary-container": "#9c573a",
+                        "surface-tint": "#006a63",
+                        "surface-bright": "#f7f9fb",
+                        "outline-variant": "#bdc9c6",
+                        "on-surface-variant": "#3e4947",
+                        "on-surface": "#191c1e",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed": "#370e00",
+                        "on-background": "#191c1e",
+                        "error-container": "#ffdad6",
+                        "background": "#f7f9fb",
+                        "on-tertiary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "primary-fixed-dim": "#80d5cb",
+                        "surface-container-low": "#f2f4f6",
+                        "secondary-fixed-dim": "#3cddc7",
+                        "inverse-surface": "#2d3133",
+                        "surface-variant": "#e0e3e5",
+                        "on-secondary-container": "#007165",
+                        "secondary": "#006b5f",
+                        "on-secondary-fixed-variant": "#005047",
+                        "inverse-primary": "#80d5cb",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "surface-container-highest": "#e0e3e5",
+                        "tertiary-fixed": "#ffdbce",
+                        "primary-container": "#0f766e",
+                        "on-tertiary-fixed-variant": "#72361b",
+                        "surface": "#f7f9fb"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+    
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        
+        /* Shared Custom Utilities */
+        .organic-gradient {
+            background: radial-gradient(circle at 70% 30%, rgba(45, 212, 191, 0.08) 0%, rgba(247, 249, 251, 0) 60%),
+                        radial-gradient(circle at 20% 80%, rgba(15, 118, 110, 0.05) 0%, rgba(247, 249, 251, 0) 50%);
+        }
+        .logo-glow {
+            filter: drop-shadow(0 0 20px rgba(45, 212, 191, 0.2));
+        }
+        .glass-nav {
+            background: rgba(247, 249, 251, 0.8);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+        }
+        .safety-pulse {
+            box-shadow: 0 0 0 0 rgba(186, 26, 26, 0.4);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(186, 26, 26, 0.4); }
+            70% { box-shadow: 0 0 0 20px rgba(186, 26, 26, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(186, 26, 26, 0); }
+        }
+        .brand-gradient {
+            background: linear-gradient(135deg, #0F766E, #2DD4BF);
+        }
+        
+        /* Screen Management */
+        .screen {
+            transition: opacity 0.3s ease-in-out;
+            min-height: 100vh;
+            width: 100%;
+        }
+        .screen.hidden {
+            display: none;
+            opacity: 0;
+        }
+        
+        body {
+            min-height: max(884px, 100dvh);
+            overflow-x: hidden;
+        }
+    </style>
+</head>
+<body class="bg-background font-body text-on-background">
+
+    <!-- Screen 1: Splash Screen -->
+    <section id="splash-screen" class="screen flex flex-col items-center justify-center organic-gradient relative overflow-hidden cursor-pointer" onclick="showScreen('connect-screen')">
+        <!-- Background Imagery -->
+        <div class="absolute inset-0 z-0 opacity-[0.03] pointer-events-none">
+            <img class="w-full h-full object-cover grayscale" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_fRIFefBf_-Wt3dIQAoWEGjndrZxeYR273YYcI4habw2y6NtdlRBjNaBTj11cZKWMcAdlyWcuNT-JFhhTp2dUBapwdhS5_-WGfT_-4qWig6erM_EcA4aYaGNg86WrFsG2hd-p2ZVlESNpLXdIewCp_dyhAPcdmnrskzIlQUwchC9fRNwlZ_D0LjNwEsK2w7Uy-N_PUpe4GFG5usfLmA9XAkWJRKzxw3u1qFDTaOdpTSiv8SXNWtEdj3K1N2pNaviG3d_hzlk3iLo"/>
+        </div>
+        <!-- Branding Core -->
+        <div class="relative z-10 flex flex-col items-center text-center px-6">
+            <div class="mb-12 relative">
+                <div class="absolute -inset-8 rounded-full bg-primary/5 blur-3xl opacity-50"></div>
+                <div class="relative w-32 h-32 flex items-center justify-center bg-surface-container-lowest rounded-xl shadow-2xl shadow-primary/10 logo-glow">
+                    <span class="material-symbols-outlined text-primary text-6xl" style="font-variation-settings: 'FILL' 1, 'wght' 400;">airwave</span>
+                </div>
+            </div>
+            <div class="space-y-4">
+                <h1 class="font-headline font-extrabold text-5xl md:text-6xl tracking-tight text-on-background">
+                    Prana <span class="bg-clip-text text-transparent bg-gradient-to-br from-primary to-secondary">One</span>
+                </h1>
+                <div class="flex items-center justify-center space-x-3">
+                    <div class="h-px w-8 bg-outline-variant/30"></div>
+                    <p class="font-label text-xs uppercase tracking-[0.3em] text-outline font-semibold">Breathe Easy. Ride Safe.</p>
+                    <div class="h-px w-8 bg-outline-variant/30"></div>
+                </div>
+            </div>
+        </div>
+        <div class="absolute bottom-16 left-1/2 -translate-x-1/2 flex flex-col items-center">
+            <div class="flex space-x-2 mb-4">
+                <div class="w-1.5 h-1.5 rounded-full bg-primary/20"></div>
+                <div class="w-1.5 h-1.5 rounded-full bg-primary/20"></div>
+                <div class="w-1.5 h-1.5 rounded-full bg-primary/20"></div>
+            </div>
+            <p class="font-label text-[10px] text-outline/60 uppercase tracking-widest font-medium">Initializing Systems</p>
+        </div>
+    </section>
+
+    <!-- Screen 2: Connect Device -->
+    <section id="connect-screen" class="screen hidden bg-background flex flex-col items-center">
+        <header class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl flex justify-between items-center w-full px-6 py-4 sticky top-0 z-50">
+            <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-teal-700" style="font-variation-settings: 'FILL' 1;">guardian</span>
+                <span class="text-teal-900 dark:text-teal-50 font-black tracking-wider font-headline text-xl">The Guardian Pulse</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="text-slate-500 font-label text-[11px] uppercase tracking-widest">Step 01/04</span>
+            </div>
+        </header>
+        <main class="flex-grow flex flex-col items-center justify-center px-6 py-12 max-w-4xl mx-auto w-full">
+            <div class="relative w-full aspect-square md:aspect-video flex items-center justify-center mb-12">
+                <div class="absolute inset-0 bg-surface-container-low rounded-xl -rotate-2 scale-105"></div>
+                <div class="relative z-10 w-full max-w-md bg-surface-container-lowest rounded-lg p-8 shadow-2xl shadow-teal-900/5 flex flex-col items-center">
+                    <div class="relative mb-6">
+                        <div class="w-48 h-48 bg-surface-container rounded-full flex items-center justify-center">
+                            <img class="w-40 h-40 object-cover rounded-full mix-blend-multiply opacity-90" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnRLROYiKVn3gXruKQq_0D-NbHqF2Lo2W_J2CVyOGz9xWnzm-X0G7Jvw0bc18xTk8xJWMJBVZUeMK96uKLcKDQJnp3c5wRMrK92XVtZQRWbStd_8eKTp7e3VkVDtvvss8tPU0Hbb8BFIZMc7_fmAeihYxi2LEUvAw8YIVOzqIamaAB2FvMAv4BoDJd2CllZmQUdQ0gl2MXj3VgYCCuzcrCsDDkqs9nSKDxm1cpsAQ5CiJ5cIVBnCH49hytwk8CctmXSTOA6vH4FaI"/>
+                        </div>
+                        <div class="absolute -bottom-2 -right-2 w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg">
+                            <div class="absolute inset-0 bg-secondary-fixed opacity-20 rounded-full animate-ping"></div>
+                            <span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">bluetooth_connected</span>
+                        </div>
+                    </div>
+                    <p class="text-on-surface-variant font-label text-[11px] uppercase tracking-[0.2em] mb-2">Ready to pair</p>
+                    <h2 class="font-headline text-2xl font-extrabold text-on-surface text-center leading-tight">Prana One Attachment</h2>
+                </div>
+            </div>
+            <div class="w-full max-w-lg text-left space-y-8">
+                <header>
+                    <h1 class="font-headline text-4xl md:text-5xl font-black text-teal-900 tracking-tight leading-none mb-4">Connect Your Device</h1>
+                    <p class="text-on-surface-variant text-lg leading-relaxed max-w-md">Seamlessly sync your Guardian Pulse sensor to enable real-time air quality tracking and emergency SOS alerts.</p>
+                </header>
+                <div class="space-y-4">
+                    <div class="flex items-start gap-4 p-5 bg-surface-container-low rounded-lg transition-all hover:bg-surface-container-high group">
+                        <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center flex-shrink-0 text-primary font-bold text-sm shadow-sm group-hover:scale-110 transition-transform">1</div>
+                        <p class="text-on-surface leading-snug">Hold the <strong>Power Button</strong> for 5 seconds until the LED flashes <span class="text-secondary font-bold">Aqua Mint</span>.</p>
+                    </div>
+                    <div class="flex items-start gap-4 p-5 bg-surface-container-low rounded-lg transition-all hover:bg-surface-container-high group">
+                        <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center flex-shrink-0 text-primary font-bold text-sm shadow-sm group-hover:scale-110 transition-transform">2</div>
+                        <p class="text-on-surface leading-snug">Ensure Bluetooth is enabled on your smartphone and keep the device within <strong>3 feet</strong>.</p>
+                    </div>
+                </div>
+                <div class="pt-4">
+                    <button class="brand-gradient w-full py-6 rounded-xl text-white font-headline text-xl font-extrabold tracking-wide flex items-center justify-center gap-3 shadow-xl shadow-teal-900/20 active:scale-95 transition-all" onclick="showScreen('emergency-screen')">
+                        <span class="material-symbols-outlined text-2xl">search</span> Search for Device
+                    </button>
+                    <p class="text-center mt-6 text-on-surface-variant text-sm font-medium">Can't find your device? <a class="text-primary underline underline-offset-4 decoration-primary-fixed-dim" href="#">View troubleshooting</a></p>
+                </div>
+            </div>
+        </main>
+        <footer class="p-8 flex justify-between items-center w-full max-w-4xl mx-auto">
+            <button class="flex items-center gap-2 text-slate-500 font-label text-[11px] uppercase tracking-widest hover:text-on-background transition-colors" onclick="showScreen('splash-screen')">
+                <span class="material-symbols-outlined text-sm">arrow_back_ios</span> Back
+            </button>
+            <div class="flex gap-2">
+                <div class="w-8 h-1.5 rounded-full bg-primary"></div>
+                <div class="w-2 h-1.5 rounded-full bg-surface-container-highest"></div>
+                <div class="w-2 h-1.5 rounded-full bg-surface-container-highest"></div>
+                <div class="w-2 h-1.5 rounded-full bg-surface-container-highest"></div>
+            </div>
+        </footer>
+    </section>
+
+    <!-- Screen 3: Emergency Safety -->
+    <section id="emergency-screen" class="screen hidden bg-background flex flex-col">
+        <header class="w-full px-6 py-8 flex justify-between items-center bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl">
+            <div class="flex items-center gap-2">
+                <span class="text-teal-900 dark:text-teal-50 font-black tracking-wider text-xl font-headline">The Guardian Pulse</span>
+            </div>
+            <div class="h-10 w-10 rounded-full bg-surface-container flex items-center justify-center overflow-hidden">
+                <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBZWr8LzluWyKhQIpOlxArvLTKIPfRkXhNJm_8VG2a42zU4iIJlu-wpot5zUXXjz6QWLgZNhCmQTJcch3EXmRvQmCy8GQLZh_-97I-We4ytT_Rd8LLa8zjuT33CvynmoSeak8qwxO4csZtOOg4wknxk9nrApBslNMug0ECs-XuvR0TAFgyAy1WwvlMyjvaDmJNMpPJ1-ib6m_2kp61AWIo9HUXThvof5_LQYFrPtqTucbw-59KAxdXoTT8uyCcaLXgkuXwZVLaVug"/>
+            </div>
+        </header>
+        <main class="flex-grow container mx-auto px-6 max-w-2xl pb-24">
+            <div class="mt-8 mb-12 flex flex-col items-start gap-4">
+                <div class="flex items-center gap-2 px-4 py-2 bg-secondary-fixed rounded-full">
+                    <span class="material-symbols-outlined text-on-secondary-fixed text-sm" style="font-variation-settings: 'FILL' 1;">shield_with_heart</span>
+                    <span class="text-[11px] font-label font-bold uppercase tracking-widest text-on-secondary-fixed">Step 2: Emergency Safety</span>
+                </div>
+                <h1 class="text-4xl md:text-5xl font-headline font-extrabold text-on-background tracking-tight leading-none">Your Guardian <br/>is <span class="text-primary">Watching.</span></h1>
+            </div>
+            <section class="bg-surface-container-low rounded-xl p-8 mb-8 relative overflow-hidden">
+                <div class="flex flex-col md:flex-row gap-8 items-center">
+                    <div class="w-24 h-24 flex-shrink-0 bg-error rounded-full flex items-center justify-center safety-pulse">
+                        <span class="material-symbols-outlined text-white text-5xl" style="font-variation-settings: 'FILL' 1;">emergency_share</span>
+                    </div>
+                    <div class="flex-grow">
+                        <h2 class="text-xl font-headline font-bold mb-2">Automatic Crash Detection</h2>
+                        <p class="text-on-surface-variant leading-relaxed">Our sensors detect impacts and alert your loved ones automatically. In the event of a high-G force incident, we'll send your exact GPS location to your primary contacts.</p>
+                    </div>
+                </div>
+            </section>
+            <form class="space-y-6">
+                <div class="space-y-4">
+                    <h3 class="text-sm font-label font-bold uppercase tracking-widest text-outline">Primary Emergency Contacts</h3>
+                    <div class="bg-surface-container-lowest rounded-lg p-6 shadow-sm border border-outline-variant/10">
+                        <div class="flex flex-col gap-6">
+                            <div class="space-y-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                                        <span class="material-symbols-outlined text-primary">person</span>
+                                    </div>
+                                    <label class="text-sm font-medium">Contact 01</label>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <input class="w-full h-14 bg-surface-container-low border-none rounded-DEFAULT px-4 focus:ring-2 focus:ring-primary/20 placeholder:text-outline" placeholder="Full Name" type="text" value="Jane Doe"/>
+                                    <input class="w-full h-14 bg-surface-container-low border-none rounded-DEFAULT px-4 focus:ring-2 focus:ring-primary/20 placeholder:text-outline" placeholder="Phone Number" type="tel" value="+1 234 567 890"/>
+                                </div>
+                            </div>
+                            <div class="h-px bg-surface-container w-full"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pt-8">
+                    <button class="w-full h-16 bg-gradient-to-br from-primary-container to-[#2DD4BF] text-white font-headline font-bold text-lg rounded-xl shadow-lg shadow-primary/20 flex items-center justify-center gap-3 hover:opacity-90 active:scale-95 transition-all" type="button" onclick="completeOnboarding()">
+                        Complete Onboarding <span class="material-symbols-outlined">arrow_forward</span>
+                    </button>
+                </div>
+            </form>
+        </main>
+    </section>
+    <script>
+        function completeOnboarding() {
+            const name = document.querySelector('input[placeholder="Full Name"]').value;
+            const phone = document.querySelector('input[placeholder="Phone Number"]').value;
+            
+            const contacts = [{ name: name, phone: phone, relation: 'Primary' }];
+            localStorage.setItem('prana_contacts', JSON.stringify(contacts));
+            
+            showScreen('dashboard-screen');
+        }
+    </script>
+    <section id="dashboard-screen" class="screen hidden bg-surface flex flex-col">
+        <header class="fixed top-0 left-0 w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl flex justify-between items-center px-6 py-4">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full overflow-hidden border border-outline-variant/20 shadow-sm">
+                    <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBZWr8LzluWyKhQIpOlxArvLTKIPfRkXhNJm_8VG2a42zU4iIJlu-wpot5zUXXjz6QWLgZNhCmQTJcch3EXmRvQmCy8GQLZh_-97I-We4ytT_Rd8LLa8zjuT33CvynmoSeak8qwxO4csZtOOg4wknxk9nrApBslNMug0ECs-XuvR0TAFgyAy1WwvlMyjvaDmJNMpPJ1-ib6m_2kp61AWIo9HUXThvof5_LQYFrPtqTucbw-59KAxdXoTT8uyCcaLXgkuXwZVLaVug"/>
+                </div>
+                <div>
+                    <span class="block text-teal-900 dark:text-teal-50 font-black tracking-wider font-headline text-lg">The Guardian Pulse</span>
+                    <div class="flex items-center gap-1.5">
+                        <div class="w-2 h-2 rounded-full bg-secondary-fixed-dim"></div>
+                        <span class="text-[10px] font-label font-medium uppercase tracking-[0.1em] text-outline">Prana One Connected</span>
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-2 bg-surface-container px-3 py-1.5 rounded-full">
+                    <span class="material-symbols-outlined text-sm text-primary">battery_5_bar</span>
+                    <span class="text-xs font-bold font-headline text-on-surface">85%</span>
+                </div>
+                <span class="material-symbols-outlined text-teal-700 dark:text-teal-400">bluetooth_connected</span>
+            </div>
+        </header>
+        <main class="pt-24 pb-32 px-6 max-w-2xl mx-auto w-full space-y-8">
+            <section class="relative overflow-hidden bg-surface-container-lowest p-8 rounded-xl border border-outline-variant/10 shadow-sm">
+                <div class="relative z-10">
+                    <h2 class="font-headline text-2xl font-bold tracking-tight mb-6 text-on-background">Ride Readiness</h2>
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-4"><span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">check_circle</span> <span class="text-on-surface-variant font-medium">Helmet System Calibrated</span></div>
+                        <div class="flex items-center gap-4"><span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">check_circle</span> <span class="text-on-surface-variant font-medium">Oxygen Sensors Active</span></div>
+                        <div class="flex items-center gap-4"><span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">check_circle</span> <span class="text-on-surface-variant font-medium">SOS Tether Linked</span></div>
+                    </div>
+                </div>
+                <div class="absolute top-[-20%] right-[-10%] w-48 h-48 bg-secondary-container/10 rounded-full blur-3xl"></div>
+            </section>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="bg-surface-container-low p-6 rounded-lg flex flex-col justify-between">
+                    <div>
+                        <span class="text-[10px] font-label font-bold uppercase tracking-widest text-outline block mb-1">Local AQI</span>
+                        <div class="flex items-baseline gap-2">
+                            <span class="text-4xl font-headline font-extrabold text-on-background">42</span>
+                            <span class="text-secondary font-bold font-headline text-sm">Good</span>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex items-center gap-2">
+                        <div class="flex-1 h-1.5 bg-outline-variant/20 rounded-full overflow-hidden"><div class="w-[42%] h-full bg-secondary-fixed-dim"></div></div>
+                        <span class="material-symbols-outlined text-secondary text-lg">air</span>
+                    </div>
+                </div>
+                <div class="bg-surface-container-low p-6 rounded-lg flex flex-col justify-between">
+                    <div>
+                        <span class="text-[10px] font-label font-bold uppercase tracking-widest text-outline block mb-1">Last Trip</span>
+                        <div class="text-xl font-headline font-bold text-on-background">12.4 <span class="text-xs text-outline-variant">KM</span></div>
+                    </div>
+                    <div class="mt-4 flex justify-end"><span class="material-symbols-outlined text-primary text-lg">history</span></div>
+                </div>
+            </div>
+            <section class="bg-error-container/20 p-6 rounded-lg flex items-center justify-between border-l-4 border-error">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-full bg-error-container flex items-center justify-center">
+                        <span class="material-symbols-outlined text-error" style="font-variation-settings: 'FILL' 1;">emergency</span>
+                    </div>
+                    <div>
+                        <h3 class="font-headline font-bold text-on-background">Jane Doe (Wife)</h3>
+                        <p class="text-xs text-on-surface-variant">Alerted in 0.5s on impact</p>
+                    </div>
+                </div>
+                <button class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+            </section>
+            <div class="pt-8 pb-4 flex justify-center">
+                <button class="start-ride-gradient w-full py-6 rounded-xl flex items-center justify-center gap-4 shadow-2xl shadow-teal-900/20 active:scale-95 transition-transform" id="start-ride-btn">
+                    <span class="material-symbols-outlined text-white text-3xl" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                    <span class="text-white font-headline font-extrabold text-2xl tracking-[0.1em]">START RIDE</span>
+                </button>
+            </div>
+        </main>
+        <nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-8 pt-4 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-t-[3rem] shadow-2xl shadow-teal-900/10">
+            <a class="flex flex-col items-center justify-center bg-teal-50 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300 rounded-full px-5 py-2 scale-110 transition-transform duration-300" href="#"><span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">home</span><span class="font-inter font-medium text-[11px] uppercase tracking-wider mt-1">Home</span></a>
+            <a class="flex flex-col items-center justify-center text-slate-500 px-5 py-2" href="#"><span class="material-symbols-outlined text-[24px]">history</span><span class="font-inter font-medium text-[11px] uppercase tracking-wider mt-1">History</span></a>
+            <a class="flex flex-col items-center justify-center text-slate-500 px-5 py-2" href="#"><span class="material-symbols-outlined text-[24px]">air</span><span class="font-inter font-medium text-[11px] uppercase tracking-wider mt-1">AQI</span></a>
+            <a class="flex flex-col items-center justify-center text-slate-500 px-5 py-2" href="#"><span class="material-symbols-outlined text-[24px]">emergency</span><span class="font-inter font-medium text-[11px] uppercase tracking-wider mt-1">SOS</span></a>
+            <a class="flex flex-col items-center justify-center text-slate-500 px-5 py-2" href="#"><span class="material-symbols-outlined text-[24px]">settings</span><span class="font-inter font-medium text-[11px] uppercase tracking-wider mt-1">Settings</span></a>
+        </nav>
+    </section>
+
+    <!-- SOS OVERLAY (Hidden by default) -->
+    <div id="sos-overlay" class="fixed inset-0 z-[100] bg-error flex flex-col items-center justify-center p-8 hidden animate-pulse">
+        <div class="w-32 h-32 bg-white rounded-full flex items-center justify-center mb-8 safety-pulse">
+            <span class="material-symbols-outlined text-error text-6xl">emergency</span>
+        </div>
+        <h2 class="text-white text-4xl font-headline font-black mb-4 text-center uppercase tracking-tighter">Crash Detected!</h2>
+        <p class="text-white/80 text-lg mb-12 text-center max-w-xs">Notifying emergency contacts in...</p>
+        <div class="text-white text-8xl font-black mb-12" id="sos-timer">30</div>
+        <button class="w-full py-6 bg-white text-error font-headline font-black text-xl rounded-xl shadow-2xl active:scale-95 transition-all" onclick="cancelSOS()">CANCEL ALERT</button>
+    </div>
+
+    <!-- DEMO CRASH BUTTON (Floats on Dashboard) -->
+    <button id="demo-crash-btn" class="fixed bottom-32 right-6 z-[60] w-14 h-14 bg-error text-white rounded-full shadow-2xl flex items-center justify-center hidden active:scale-90 transition-all" onclick="triggerCrash()">
+        <span class="material-symbols-outlined">bolt</span>
+    </button>
+
+    <script>
+        let sosInterval;
+        let countdown = 30;
+
+        function showScreen(screenId) {
+            // Hide all screens
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.add('hidden');
+            });
+            // Show target screen
+            const target = document.getElementById(screenId);
+            if (target) {
+                target.classList.remove('hidden');
+                
+                // Show/Hide Demo Crash button based on screen
+                const demoBtn = document.getElementById('demo-crash-btn');
+                if (screenId === 'dashboard-screen') {
+                    demoBtn.classList.remove('hidden');
+                } else {
+                    demoBtn.classList.add('hidden');
+                }
+                
+                // Scroll to top
+                window.scrollTo(0, 0);
+            }
+        }
+
+        function triggerCrash() {
+            document.getElementById('sos-overlay').classList.remove('hidden');
+            document.getElementById('sos-timer').innerText = "30";
+            countdown = 30;
+            
+            sosInterval = setInterval(() => {
+                countdown--;
+                document.getElementById('sos-timer').innerText = countdown;
+                if (countdown <= 0) {
+                    sendSOS();
+                }
+            }, 1000);
+        }
+
+        function cancelSOS() {
+            clearInterval(sosInterval);
+            document.getElementById('sos-overlay').classList.add('hidden');
+            alert("Emergency alert cancelled. System resumed monitoring.");
+        }
+
+        async function sendSOS() {
+            clearInterval(sosInterval);
+            
+            // Initial success UI
+            document.getElementById('sos-overlay').innerHTML = `
+                <div class="flex flex-col items-center text-white text-center">
+                    <span class="material-symbols-outlined text-8xl mb-4 animate-bounce" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                    <h2 class="text-3xl font-black mb-2 uppercase">SOS Sent!</h2>
+                    <p class="text-white/70 mb-4">Location and alerts delivered.</p>
+                    <div id="gps-display" class="bg-white/10 px-4 py-2 rounded-lg text-xs font-mono">
+                        Fetching precise location...
+                    </div>
+                    <button class="mt-12 px-8 py-4 bg-white text-error font-bold rounded-xl active:scale-95 transition-all" onclick="location.reload()">RETURN</button>
+                </div>
+            `;
+
+            // 1. Get Real GPS
+            let lat = 12.9716, lng = 77.5946; // Default: Bengaluru
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((pos) => {
+                    lat = pos.coords.latitude;
+                    lng = pos.coords.longitude;
+                    document.getElementById('gps-display').innerText = `LAT: ${lat.toFixed(4)} | LNG: ${lng.toFixed(4)}`;
+                    saveIncident(lat, lng);
+                }, (err) => {
+                    document.getElementById('gps-display').innerText = "Location access denied. Using network default.";
+                    saveIncident(lat, lng);
+                }, { enableHighAccuracy: true });
+            } else {
+                document.getElementById('gps-display').innerText = "GPS not supported. Using network default.";
+                saveIncident(lat, lng);
+            }
+        }
+
+        function saveIncident(lat, lng) {
+            const incident = {
+                id: Date.now(),
+                type: 'Crash',
+                timestamp: new Date().toLocaleTimeString(),
+                lat: lat,
+                lng: lng,
+                status: 'Critical'
+            };
+
+            // 2. Save to LocalStorage for Dashboard sync
+            const incidents = JSON.parse(localStorage.getItem('prana_incidents') || '[]');
+            incidents.unshift(incident);
+            localStorage.setItem('prana_incidents', JSON.stringify(incidents));
+            
+            console.log("Incident saved to LocalStorage:", incident);
+        }
+
+        // Initialize Splash screen transitions
+        window.addEventListener('DOMContentLoaded', () => {
+            // Auto transition splash screen after 3 seconds if not clicked
+            const splashTimeout = setTimeout(() => {
+                if (!document.getElementById('splash-screen').classList.contains('hidden')) {
+                    showScreen('connect-screen');
+                }
+            }, 3500);
+
+            // Cancel timeout if user clicks
+            document.getElementById('splash-screen').addEventListener('click', () => {
+                clearTimeout(splashTimeout);
+            });
+        });
+        
+        // SOS Interaction Demo (from Nav)
+        const sosBtn = document.querySelector('nav a:nth-child(4)');
+        if (sosBtn) {
+            sosBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const confirmSOS = confirm("TRIGGER SOS ALERT?\n\nThis will notify Jane Doe and start a 30-second countdown.");
+                if (confirmSOS) triggerCrash();
+            });
+        }
+    </script>
+</body>
+</html>

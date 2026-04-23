@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRANA Central Dashboard | Safety Guardian</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Inter:wght@400;500;600&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f7f9fb; }
+        .font-headline { font-family: 'Manrope', sans-serif; }
+        .glass-sidebar { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(20px); border-right: 1px solid rgba(0, 0, 0, 0.05); }
+        .status-pill { padding: 4px 12px; border-radius: 999px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+        .pill-critical { background-color: #fee2e2; color: #991b1b; }
+        .pill-warning { background-color: #fef3c7; color: #92400e; }
+        .pill-safe { background-color: #d1fae5; color: #065f46; }
+        #map { height: 500px; border-radius: 1.5rem; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05); }
+        .card-premium { background: white; border-radius: 1.5rem; border: 1px solid rgba(0, 0, 0, 0.03); transition: all 0.3s ease; }
+        .card-premium:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05); }
+        .logo-gradient { background: linear-gradient(135deg, #0f766e, #2dd4bf); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    </style>
+</head>
+<body class="flex min-h-screen">
+
+    <!-- Sidebar -->
+    <aside class="w-72 glass-sidebar flex flex-col p-8 fixed h-full z-50">
+        <div class="flex items-center gap-3 mb-12">
+            <div class="w-10 h-10 bg-teal-700 rounded-xl flex items-center justify-center text-white shadow-lg shadow-teal-700/20">
+                <span class="material-symbols-outlined">airwave</span>
+            </div>
+            <h1 class="font-headline font-extrabold text-2xl logo-gradient">Prana One</h1>
+        </div>
+
+        <nav class="flex-grow space-y-2">
+            <a href="#" class="flex items-center gap-4 p-4 bg-teal-50 text-teal-700 rounded-xl font-bold transition-all">
+                <span class="material-symbols-outlined">dashboard</span> Dashboard
+            </a>
+            <a href="#" class="flex items-center gap-4 p-4 text-slate-500 hover:bg-slate-50 rounded-xl font-medium transition-all">
+                <span class="material-symbols-outlined">monitor_heart</span> Live Monitor
+            </a>
+            <a href="#" class="flex items-center gap-4 p-4 text-slate-500 hover:bg-slate-50 rounded-xl font-medium transition-all" onclick="showModal('contacts-modal')">
+                <span class="material-symbols-outlined">group</span> Emergency Contacts
+            </a>
+        </nav>
+
+        <!-- System Log -->
+        <div class="mt-8 bg-slate-900/5 rounded-2xl p-4 border border-slate-900/10">
+            <div class="flex justify-between items-center mb-4">
+                <h4 class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">System Logs</h4>
+                <button class="text-[9px] text-teal-700 font-bold hover:underline" onclick="document.getElementById('sys-log').innerHTML=''">Clear</button>
+            </div>
+            <div id="sys-log" class="text-[10px] font-mono text-slate-500 space-y-1 h-32 overflow-y-auto">
+                <div>[00:00:00] System Initialized</div>
+                <div>[00:00:00] Waiting for link...</div>
+            </div>
+        </div>
+
+        <div class="mt-auto p-6 bg-teal-900 rounded-2xl text-white">
+            <p class="text-xs text-teal-300 uppercase font-bold tracking-widest mb-2">Emergency Hub</p>
+            <h3 class="text-lg font-bold mb-4">All Systems Online</h3>
+            <button class="w-full py-3 bg-white text-teal-900 rounded-xl font-bold text-sm shadow-sm active:scale-95 transition-all">
+                Broadcast Alert
+            </button>
+        </div>
+    </aside>
+
+    <!-- Modals -->
+    <div id="contacts-modal" class="fixed inset-0 z-[100] bg-slate-900/50 backdrop-blur-sm flex items-center justify-center hidden p-6">
+        <div class="bg-white w-full max-w-md rounded-3xl p-8 shadow-2xl animate-in zoom-in-95 duration-300">
+            <div class="flex justify-between items-center mb-8">
+                <h3 class="text-2xl font-headline font-black text-slate-900">Guardian Contacts</h3>
+                <button class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500" onclick="hideModal('contacts-modal')">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div id="contacts-list" class="space-y-4">
+                <!-- Contacts will be loaded here -->
+            </div>
+            <button class="w-full mt-8 py-4 bg-teal-700 text-white font-bold rounded-xl" onclick="hideModal('contacts-modal')">Close</button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="ml-72 flex-grow p-12 bg-[#f7f9fb]">
+        <!-- Header -->
+        <header class="flex justify-between items-center mb-12">
+            <div>
+                <h2 class="text-3xl font-headline font-extrabold text-slate-900">Guardian Command</h2>
+                <p class="text-slate-500 font-medium">Real-time safety monitoring for connected riders</p>
+            </div>
+            <div class="flex items-center gap-6">
+                <div class="flex items-center gap-3 px-4 py-2 bg-white rounded-full shadow-sm">
+                    <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+                    <span class="text-sm font-bold text-slate-700">Server Status: Live</span>
+                </div>
+                <div class="w-12 h-12 rounded-full bg-slate-200 border-2 border-white shadow-sm overflow-hidden">
+                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBZWr8LzluWyKhQIpOlxArvLTKIPfRkXhNJm_8VG2a42zU4iIJlu-wpot5zUXXjz6QWLgZNhCmQTJcch3EXmRvQmCy8GQLZh_-97I-We4ytT_Rd8LLa8zjuT33CvynmoSeak8qwxO4csZtOOg4wknxk9nrApBslNMug0ECs-XuvR0TAFgyAy1WwvlMyjvaDmJNMpPJ1-ib6m_2kp61AWIo9HUXThvof5_LQYFrPtqTucbw-59KAxdXoTT8uyCcaLXgkuXwZVLaVug" alt="User">
+                </div>
+            </div>
+        </header>
+
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-4 gap-8 mb-12">
+            <div class="card-premium p-8">
+                <div class="w-12 h-12 bg-red-50 text-red-600 rounded-xl flex items-center justify-center mb-6">
+                    <span class="material-symbols-outlined">emergency</span>
+                </div>
+                <h4 class="text-slate-400 font-bold text-xs uppercase tracking-widest mb-1">Crashes Detected</h4>
+                <div class="flex items-baseline gap-3">
+                    <span class="text-4xl font-headline font-extrabold text-slate-900">03</span>
+                    <span class="text-red-500 text-xs font-bold">+1 today</span>
+                </div>
+            </div>
+            <div class="card-premium p-8">
+                <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center mb-6">
+                    <span class="material-symbols-outlined">warning</span>
+                </div>
+                <h4 class="text-slate-400 font-bold text-xs uppercase tracking-widest mb-1">Falls / Slips</h4>
+                <div class="flex items-baseline gap-3">
+                    <span class="text-4xl font-headline font-extrabold text-slate-900">12</span>
+                    <span class="text-amber-500 text-xs font-bold">-2% avg</span>
+                </div>
+            </div>
+            <div class="card-premium p-8">
+                <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center mb-6">
+                    <span class="material-symbols-outlined">speed</span>
+                </div>
+                <h4 class="text-slate-400 font-bold text-xs uppercase tracking-widest mb-1">Hard Braking</h4>
+                <div class="flex items-baseline gap-3">
+                    <span class="text-4xl font-headline font-extrabold text-slate-900">45</span>
+                    <span class="text-blue-500 text-xs font-bold">Safe range</span>
+                </div>
+            </div>
+            <div class="card-premium p-8">
+                <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center mb-6">
+                    <span class="material-symbols-outlined">group</span>
+                </div>
+                <h4 class="text-slate-400 font-bold text-xs uppercase tracking-widest mb-1">Active Riders</h4>
+                <div class="flex items-baseline gap-3">
+                    <span class="text-4xl font-headline font-extrabold text-slate-900">1.2k</span>
+                    <span class="text-emerald-500 text-xs font-bold">+18 today</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Map & Feed -->
+        <div class="grid grid-cols-3 gap-8">
+            <div class="col-span-2 card-premium p-8">
+                <div class="flex justify-between items-center mb-8">
+                    <h3 class="text-xl font-headline font-extrabold">Active Incident Map</h3>
+                    <div class="flex gap-2">
+                        <button class="px-4 py-2 bg-slate-100 text-slate-700 rounded-lg text-xs font-bold hover:bg-slate-200 transition-colors" onclick="map.setView([12.9716, 77.5946], 13)">Reset View</button>
+                        <button class="px-4 py-2 bg-teal-700 text-white rounded-lg text-xs font-bold shadow-md shadow-teal-700/20">Standard</button>
+                    </div>
+                </div>
+                <div id="map"></div>
+            </div>
+
+            <div class="card-premium p-8 flex flex-col h-[600px]">
+                <div class="flex justify-between items-center mb-8">
+                    <h3 class="text-xl font-headline font-extrabold">Live Alert Feed</h3>
+                    <button class="text-[10px] font-bold text-teal-700 hover:underline uppercase tracking-widest" onclick="clearIncidents()">Clear All</button>
+                </div>
+                <div class="space-y-6 overflow-y-auto flex-grow pr-2 scroll-smooth" id="incident-feed">
+                    <!-- Dynamic incidents will appear here -->
+                    <div class="flex flex-col items-center justify-center h-full text-slate-300 space-y-4" id="empty-feed-state">
+                        <span class="material-symbols-outlined text-6xl">cloud_done</span>
+                        <p class="font-medium text-sm">No active incidents reported</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Notification Toast -->
+    <div id="toast-container" class="fixed top-8 right-8 z-[100] flex flex-col gap-4"></div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script>
+        const map = L.map('map').setView([12.9716, 77.5946], 13); // Default: Bengaluru
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+            subdomains: 'abcd',
+            maxZoom: 20
+        }).addTo(map);
+
+        // Ensure map renders correctly
+        setTimeout(() => { map.invalidateSize(); }, 500);
+
+        const markers = [];
+        let lastProcessedId = 0;
+
+        // Add a mock incident marker (Initial)
+        const crashIcon = L.divIcon({
+            className: 'custom-div-icon',
+            html: "<div style='background-color:#dc2626; width:20px; height:20px; border-radius:50%; border:3px solid white; box-shadow:0 0 10px rgba(220,38,38,0.5);' class='animate-ping'></div>",
+            iconSize: [20, 20],
+            iconAnchor: [10, 10]
+        });
+
+        // Sync with App via LocalStorage
+        function syncIncidents() {
+            const incidents = JSON.parse(localStorage.getItem('prana_incidents') || '[]');
+            
+            // Remove empty state if incidents exist
+            if (incidents.length > 0) {
+                const emptyState = document.getElementById('empty-feed-state');
+                if (emptyState) emptyState.remove();
+            }
+
+            // Process in chronological order (oldest to newest)
+            incidents.slice().reverse().forEach(incident => {
+                if (incident.id > lastProcessedId) {
+                    addIncidentToUI(incident);
+                    lastProcessedId = incident.id;
+                    showToast(incident);
+                }
+            });
+        }
+
+        function showToast(incident) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `flex items-center gap-4 p-5 bg-white rounded-2xl shadow-2xl border-l-8 border-red-600 animate-in fade-in slide-in-from-top-8 duration-500 max-w-sm`;
+            toast.innerHTML = `
+                <div class="w-12 h-12 bg-red-100 text-red-600 rounded-full flex items-center justify-center">
+                    <span class="material-symbols-outlined">emergency</span>
+                </div>
+                <div>
+                    <h4 class="font-headline font-black text-slate-900 uppercase text-xs tracking-widest">Immediate Alert</h4>
+                    <p class="text-sm font-medium text-slate-600">${incident.type} detected at user location.</p>
+                </div>
+            `;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.add('animate-out', 'fade-out', 'slide-out-to-right-full');
+                setTimeout(() => toast.remove(), 500);
+            }, 5000);
+        }
+
+        function addIncidentToUI(incident) {
+            logEvent(`DATA RECEIVED: ${incident.type} detected.`);
+            // 1. Add Marker to Map
+            const marker = L.marker([incident.lat, incident.lng], {icon: crashIcon}).addTo(map)
+                .bindPopup(`<div class='p-2'><h3 class='font-bold text-red-600 uppercase'>${incident.type} DETECTED</h3><p class='text-xs'>Time: ${incident.timestamp}<br>Status: ${incident.status}</p></div>`)
+                .openPopup();
+            
+            markers.push({id: incident.id, marker: marker});
+            map.setView([incident.lat, incident.lng], 14);
+
+            // 2. Add Card to Feed
+            const feed = document.getElementById('incident-feed');
+            const item = document.createElement('div');
+            const colorClass = incident.type === 'Crash' ? 'red' : (incident.type === 'Fall' ? 'amber' : 'blue');
+            const icon = incident.type === 'Crash' ? 'emergency' : (incident.type === 'Fall' ? 'warning' : 'speed');
+            
+            item.id = `alert-${incident.id}`;
+            item.className = `flex gap-4 p-4 bg-${colorClass}-50 rounded-2xl border border-${colorClass}-100 animate-in fade-in slide-in-from-right-4 duration-500`;
+            item.innerHTML = `
+                <div class="w-10 h-10 bg-${colorClass}-600 text-white rounded-full flex items-center justify-center flex-shrink-0">
+                    <span class="material-symbols-outlined text-xl">${icon}</span>
+                </div>
+                <div class="flex-grow">
+                    <div class="flex justify-between items-start mb-1">
+                        <h5 class="text-sm font-extrabold text-${colorClass}-900 uppercase">${incident.type} Alert</h5>
+                        <span class="text-[10px] font-bold text-${colorClass}-400">${incident.timestamp}</span>
+                    </div>
+                    <p class="text-xs text-${colorClass}-800 font-medium mb-3">${incident.type} detected at device location. Contacts notified.</p>
+                    <div class="flex gap-2">
+                        <button class="px-3 py-1.5 bg-${colorClass}-600 text-white text-[10px] font-bold rounded-lg uppercase shadow-sm" onclick="viewIncident(${incident.lat}, ${incident.lng})">Locate</button>
+                        <button class="px-3 py-1.5 bg-white text-${colorClass}-600 text-[10px] font-bold rounded-lg uppercase border border-${colorClass}-200" onclick="resolveIncident(${incident.id})">Resolve</button>
+                    </div>
+                </div>
+            `;
+            feed.prepend(item);
+
+            // 3. Update Stats
+            if (incident.type === 'Crash') {
+                const statElem = document.querySelector('.card-premium:nth-child(1) .text-4xl');
+                if (statElem) {
+                    let count = parseInt(statElem.innerText);
+                    statElem.innerText = (count + 1).toString().padStart(2, '0');
+                }
+            }
+        }
+
+        window.viewIncident = function(lat, lng) {
+            map.setView([lat, lng], 16);
+        };
+
+        window.resolveIncident = function(id) {
+            const item = document.getElementById(`alert-${id}`);
+            if (item) {
+                item.style.opacity = '0.5';
+                item.style.filter = 'grayscale(1)';
+                item.querySelector('button:last-child').innerText = 'Resolved';
+                item.querySelector('button:last-child').disabled = true;
+            }
+            alert(`Incident #${id} marked as resolved.`);
+        };
+
+        window.clearIncidents = function() {
+            if (confirm("Clear all incident history?")) {
+                localStorage.removeItem('prana_incidents');
+                location.reload();
+            }
+        };
+
+        // Modal Logic
+        window.showModal = function(id) {
+            document.getElementById(id).classList.remove('hidden');
+            if (id === 'contacts-modal') loadContacts();
+        };
+
+        window.hideModal = function(id) {
+            document.getElementById(id).classList.add('hidden');
+        };
+
+        function loadContacts() {
+            const list = document.getElementById('contacts-list');
+            const contacts = JSON.parse(localStorage.getItem('prana_contacts') || '[]');
+            
+            if (contacts.length === 0) {
+                list.innerHTML = '<p class="text-slate-400 text-center py-4">No emergency contacts configured in app.</p>';
+                return;
+            }
+
+            list.innerHTML = contacts.map(c => `
+                <div class="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 bg-teal-100 text-teal-700 rounded-full flex items-center justify-center">
+                            <span class="material-symbols-outlined">person</span>
+                        </div>
+                        <div>
+                            <h5 class="font-bold text-slate-900">${c.name}</h5>
+                            <p class="text-xs text-slate-500">${c.relation} Contact</p>
+                        </div>
+                    </div>
+                    <span class="text-xs font-bold text-teal-700">${c.phone}</span>
+                </div>
+            `).join('');
+        }
+
+        function logEvent(msg) {
+            const log = document.getElementById('sys-log');
+            const entry = document.createElement('div');
+            const time = new Date().toLocaleTimeString();
+            entry.innerText = `[${time}] ${msg}`;
+            log.prepend(entry);
+        }
+
+        // Poll for new incidents every 2 seconds
+        setInterval(syncIncidents, 2000);
+        syncIncidents();
+        logEvent("Dashboard active. Listening for app data...");
+
+        console.log("Prana Guardian Dashboard - Premium Engine Active.");
+    </script>
+</body>
+</html>

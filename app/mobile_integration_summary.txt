@@ -1,0 +1,40 @@
+
+REQUIRED INPUTS:
+- Accelerometer (X, Y, Z) in m/s^2
+- Gyroscope (X, Y, Z) in rad/s
+
+FEATURE FORMULAS:
+- total_acc = sqrt(ax*ax + ay*ay + az*az)
+- gyro_mag  = sqrt(gx*gx + gy*gy + gz*gz)
+
+RECOMMENDED THRESHOLDS:
+- CRASH_ACC_THRESHOLD: 15.0
+- CRASH_GYRO_THRESHOLD: 10.0
+- FALL_GYRO_THRESHOLD: 4.0
+- BRAKE_ACC_X_THRESHOLD: -4.5
+
+-----------------------------------------------------------
+FLUTTER (DART) IMPLEMENTATION SNIPPET:
+-----------------------------------------------------------
+int detectActivity(double ax, double ay, double az, double gx, double gy, double gz) {
+  double totalAcc = sqrt(ax*ax + ay*ay + az*az);
+  double gyroMag  = sqrt(gx*gx + gy*gy + gz*gz);
+
+  // 1. Check for Crash (Highest Intensity)
+  if (totalAcc > 15.0 || gyroMag > 10.0) {
+    return 3; // CRASH
+  }
+  
+  // 2. Check for Fall (High rotation, moderate acceleration)
+  if (gyroMag > 4.0) {
+    return 2; // FALL
+  }
+  
+  // 3. Check for Hard Braking (Significant negative X acceleration)
+  if (ax < -4.5) {
+    return 1; // BRAKE
+  }
+
+  return 0; // NORMAL
+}
+-----------------------------------------------------------

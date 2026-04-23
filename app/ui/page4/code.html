@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-container": "#ffe5db",
+                        "primary": "#005c55",
+                        "on-error-container": "#93000a",
+                        "surface-container": "#eceef0",
+                        "secondary-container": "#62fae3",
+                        "on-primary-fixed": "#00201d",
+                        "tertiary": "#7f4025",
+                        "outline": "#6e7977",
+                        "on-secondary-fixed": "#00201c",
+                        "on-primary-container": "#a3faef",
+                        "surface-dim": "#d8dadc",
+                        "secondary-fixed": "#62fae3",
+                        "on-error": "#ffffff",
+                        "surface-container-high": "#e6e8ea",
+                        "on-primary-fixed-variant": "#00504a",
+                        "primary-fixed": "#9cf2e8",
+                        "inverse-on-surface": "#eff1f3",
+                        "tertiary-fixed-dim": "#ffb598",
+                        "tertiary-container": "#9c573a",
+                        "surface-tint": "#006a63",
+                        "surface-bright": "#f7f9fb",
+                        "outline-variant": "#bdc9c6",
+                        "on-surface-variant": "#3e4947",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed": "#370e00",
+                        "on-background": "#191c1e",
+                        "error-container": "#ffdad6",
+                        "background": "#f7f9fb",
+                        "on-surface": "#191c1e",
+                        "on-tertiary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "primary-fixed-dim": "#80d5cb",
+                        "surface-container-low": "#f2f4f6",
+                        "secondary-fixed-dim": "#3cddc7",
+                        "inverse-surface": "#2d3133",
+                        "surface-variant": "#e0e3e5",
+                        "on-secondary-container": "#007165",
+                        "secondary": "#006b5f",
+                        "on-secondary-fixed-variant": "#005047",
+                        "inverse-primary": "#80d5cb",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "surface-container-highest": "#e0e3e5",
+                        "tertiary-fixed": "#ffdbce",
+                        "primary-container": "#0f766e",
+                        "on-tertiary-fixed-variant": "#72361b",
+                        "surface": "#f7f9fb"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        .glass-nav {
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+        }
+        .start-ride-gradient {
+            background: linear-gradient(135deg, #0F766E, #2DD4BF);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body selection:bg-secondary-fixed selection:text-on-secondary-fixed">
+<!-- TopAppBar Section -->
+<header class="fixed top-0 left-0 w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl flex justify-between items-center px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden border border-outline-variant/20 shadow-sm">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="Close-up portrait of a professional female motorcyclist with a confident expression, soft natural outdoor lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRJSuz5VYwDAlRMf9_6zfJhClN8Vyseh1AhPJbEPFYBZJjor4kIRgoQJ-XosNgHtmM7MsrnPp3n5jLzybez5TNpsZ5hbp1bHavII-pVa54DNl7WA22jI_9hIgdwCYKgFNZIdKYILIPjDraoSCjlA7LmS7ODTgjpFbCS5IIGjdAebprCRRsiDdml-7U0c5K1H7peidAfjI5B4r7JpoNv25R-yverZsDsJLh8nclGEjH7O-IDV5X5ydKnztnkNuWKuu5qkk3hxmZ4TU"/>
+</div>
+<div>
+<span class="block text-teal-900 dark:text-teal-50 font-black tracking-wider font-headline text-lg">The Guardian Pulse</span>
+<div class="flex items-center gap-1.5">
+<div class="w-2 h-2 rounded-full bg-secondary-fixed-dim"></div>
+<span class="text-[10px] font-label font-medium uppercase tracking-[0.1em] text-outline">Prana One Connected</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 bg-surface-container px-3 py-1.5 rounded-full">
+<span class="material-symbols-outlined text-sm text-primary" data-icon="battery_5_bar">battery_5_bar</span>
+<span class="text-xs font-bold font-headline text-on-surface">85%</span>
+</div>
+<button class="hover:opacity-80 transition-opacity scale-95 duration-200">
+<span class="material-symbols-outlined text-teal-700 dark:text-teal-400" data-icon="bluetooth_connected">bluetooth_connected</span>
+</button>
+</div>
+</header>
+<main class="pt-24 pb-32 px-6 max-w-2xl mx-auto space-y-8">
+<!-- Ride Readiness Section (Hero Card) -->
+<section class="relative overflow-hidden bg-surface-container-lowest p-8 rounded-xl border border-outline-variant/10 shadow-sm">
+<div class="relative z-10">
+<h2 class="font-headline text-2xl font-bold tracking-tight mb-6 text-on-background">Ride Readiness</h2>
+<div class="space-y-4">
+<div class="flex items-center gap-4 group">
+<div class="w-6 h-6 rounded-full bg-secondary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px] text-secondary" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<span class="text-on-surface-variant font-medium">Helmet System Calibrated</span>
+</div>
+<div class="flex items-center gap-4 group">
+<div class="w-6 h-6 rounded-full bg-secondary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px] text-secondary" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<span class="text-on-surface-variant font-medium">Oxygen Sensors Active</span>
+</div>
+<div class="flex items-center gap-4 group">
+<div class="w-6 h-6 rounded-full bg-secondary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px] text-secondary" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<span class="text-on-surface-variant font-medium">SOS Tether Linked</span>
+</div>
+</div>
+</div>
+<!-- Aesthetic Decoration -->
+<div class="absolute top-[-20%] right-[-10%] w-48 h-48 bg-secondary-container/10 rounded-full blur-3xl"></div>
+</section>
+<!-- Bento Grid for Widgets -->
+<div class="grid grid-cols-2 gap-4">
+<!-- AQI Widget -->
+<div class="bg-surface-container-low p-6 rounded-lg flex flex-col justify-between">
+<div>
+<span class="text-[10px] font-label font-bold uppercase tracking-widest text-outline block mb-1">Local AQI</span>
+<div class="flex items-baseline gap-2">
+<span class="text-4xl font-headline font-extrabold text-on-background">42</span>
+<span class="text-secondary font-bold font-headline text-sm">Good</span>
+</div>
+</div>
+<div class="mt-4 flex items-center gap-2">
+<div class="flex-1 h-1.5 bg-outline-variant/20 rounded-full overflow-hidden">
+<div class="w-[42%] h-full bg-secondary-fixed-dim"></div>
+</div>
+<span class="material-symbols-outlined text-secondary text-lg" data-icon="air">air</span>
+</div>
+</div>
+<!-- Recent Ride Summary -->
+<div class="bg-surface-container-low p-6 rounded-lg flex flex-col justify-between">
+<div>
+<span class="text-[10px] font-label font-bold uppercase tracking-widest text-outline block mb-1">Last Trip</span>
+<div class="space-y-1">
+<div class="text-xl font-headline font-bold text-on-background">12.4 <span class="text-xs text-outline-variant">KM</span></div>
+<div class="text-sm font-medium text-on-surface-variant">45 mins total</div>
+</div>
+</div>
+<div class="mt-4 flex justify-end">
+<span class="material-symbols-outlined text-primary text-lg" data-icon="history">history</span>
+</div>
+</div>
+</div>
+<!-- Emergency Contact Quick View -->
+<section class="bg-error-container/20 p-6 rounded-lg flex items-center justify-between border-l-4 border-error">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-error-container flex items-center justify-center">
+<span class="material-symbols-outlined text-error" data-icon="emergency" style="font-variation-settings: 'FILL' 1;">emergency</span>
+</div>
+<div>
+<h3 class="font-headline font-bold text-on-background">John Doe (Wife)</h3>
+<p class="text-xs text-on-surface-variant">Alerted in 0.5s on impact detection</p>
+</div>
+</div>
+<button class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="edit">edit</span>
+</button>
+</section>
+<!-- Primary CTA: START RIDE -->
+<div class="pt-8 pb-4 flex justify-center">
+<button class="start-ride-gradient w-full py-6 rounded-xl flex items-center justify-center gap-4 shadow-2xl shadow-teal-900/20 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-white text-3xl" data-icon="play_arrow" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+<span class="text-white font-headline font-extrabold text-2xl tracking-[0.1em]">START RIDE</span>
+</button>
+</div>
+</main>
+<!-- BottomNavBar Section -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-8 pt-4 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-t-[3rem] shadow-2xl shadow-teal-900/10">
+<!-- Home (Active) -->
+<a class="flex flex-col items-center justify-center bg-teal-50 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300 rounded-full px-5 py-2 scale-110 transition-transform duration-300" href="#">
+<span class="material-symbols-outlined text-[24px]" data-icon="home" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-inter font-medium text-[11px] uppercase tracking-wider mt-1">Home</span>
+</a>
+<!-- History -->
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 px-5 py-2 hover:text-teal-600 dark:hover:text-teal-300 transition-transform duration-300 hover:scale-110" href="#">
+<span class="material-symbols-outlined text-[24px]" data-icon="history">history</span>
+<span class="font-inter font-medium text-[11px] uppercase tracking-wider mt-1">History</span>
+</a>
+<!-- AQI -->
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 px-5 py-2 hover:text-teal-600 dark:hover:text-teal-300 transition-transform duration-300 hover:scale-110" href="#">
+<span class="material-symbols-outlined text-[24px]" data-icon="air">air</span>
+<span class="font-inter font-medium text-[11px] uppercase tracking-wider mt-1">AQI</span>
+</a>
+<!-- SOS -->
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 px-5 py-2 hover:text-teal-600 dark:hover:text-teal-300 transition-transform duration-300 hover:scale-110" href="#">
+<span class="material-symbols-outlined text-[24px]" data-icon="emergency">emergency</span>
+<span class="font-inter font-medium text-[11px] uppercase tracking-wider mt-1">SOS</span>
+</a>
+<!-- Settings -->
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 px-5 py-2 hover:text-teal-600 dark:hover:text-teal-300 transition-transform duration-300 hover:scale-110" href="#">
+<span class="material-symbols-outlined text-[24px]" data-icon="settings">settings</span>
+<span class="font-inter font-medium text-[11px] uppercase tracking-wider mt-1">Settings</span>
+</a>
+</nav>
+</body></html>

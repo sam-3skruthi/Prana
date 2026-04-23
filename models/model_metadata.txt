@@ -1,0 +1,6 @@
+Best Model      : Random Forest
+Test Accuracy   : 100.00%
+Weighted F1     : 1.0000
+CV Accuracy     : 100.00%
+Features (17): ['acc_x', 'acc_y', 'acc_z', 'gyro_x', 'gyro_y', 'gyro_z', 'acc_x_std', 'acc_y_std', 'acc_z_std', 'gyro_x_std', 'gyro_y_std', 'gyro_z_std', 'total_acc', 'acc_xy_ratio', 'gyro_magnitude', 'acc_std_total', 'gyro_std_total']
+Label Map       : {0: 'Normal', 1: 'Brake', 2: 'Fall', 3: 'Crash'}
